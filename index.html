@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>GlinRoom — гончарная студия</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Шрифт -->
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #251611;
+      --bg-panel: #3a2419;
+      --bg-panel-soft: #4b2e20;
+      --accent: #f5d7a1;
+      --accent-soft: #f0c88d;
+      --accent-pink: #c394ac;
+      --text-main: #fbead1;
+      --text-muted: #d1b79b;
+      --error: #ff8a7a;
+      --shadow-soft: 0 0 25px rgba(245, 215, 161, 0.2);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Comfortaa", system-ui, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      scroll-behavior: smooth;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(90deg, rgba(0,0,0,.25) 1px, transparent 1px),
+        linear-gradient(rgba(0,0,0,.22) 1px, transparent 1px);
+      background-size: 80px 100%, 100% 80px;
+      opacity: .15;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+      border-radius: var(--radius-lg);
+    }
+
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(20px);
+      background: linear-gradient(to bottom, rgba(37,22,17,0.98), rgba(37,22,17,0.75));
+      border-bottom: 1px solid rgba(245, 215, 161, 0.25);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .logo-img {
+      height: 44px;
+      width: auto;
+      border-radius: 16px;
+      box-shadow: 0 0 18px rgba(245, 215, 161, 0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 3px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent-pink));
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: radial-gradient(circle at top left, var(--accent-soft), var(--accent));
+      color: #3c2318;
+      box-shadow: 0 0 18px rgba(245, 215, 161, 0.5);
+      transition: transform .15s ease, box-shadow .15s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 26px rgba(245, 215, 161, 0.7);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-soft);
+      border: 1px solid rgba(245, 215, 161, 0.6);
+      box-shadow: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: 40px;
+      margin-top: 32px;
+      background: radial-gradient(circle at top, #4b2e20 0, #251611 55%);
+      border-radius: var(--radius-xl);
+      padding: 38px 26px 32px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -120px;
+      background: conic-gradient(from 220deg, rgba(245, 215, 161, .1), transparent 40%, transparent 70%, rgba(195, 148, 172, .2), transparent 100%);
+      opacity: .7;
+      pointer-events: none;
+    }
+
+    .hero-left {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 215, 161, 0.4);
+      background: rgba(37, 22, 17, 0.7);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .hero-kicker span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(245, 215, 161, 0.8);
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 2.5vw + 1.1rem, 2.6rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0 0 14px;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 32rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-right {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
+    .photo-card {
+      background: linear-gradient(145deg, #40251a, #2b1811);
+      border-radius: var(--radius-xl);
+      padding: 12px;
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .photo-card img {
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .photo-caption {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      justify-self: flex-end;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 215, 161, 0.55);
+      background: rgba(37, 22, 17, 0.9);
+      font-size: 0.8rem;
+      color: var(--accent-soft);
+    }
+
+    section {
+      margin-top: 48px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: var(--accent-pink);
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 360px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top, var(--bg-panel-soft), var(--bg-panel));
+      border-radius: var(--radius-xl);
+      padding: 20px 18px 18px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top left, rgba(245, 215, 161, .12), transparent 60%);
+      opacity: .7;
+      pointer-events: none;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+    }
+
+    .card-tag {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 215, 161, 0.45);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent-soft);
+      white-space: nowrap;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .card li {
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(245, 215, 161, 0.22);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card li:last-child {
+      border-bottom: none;
+    }
+
+    .card li span:first-child {
+      max-width: 70%;
+    }
+
+    .price {
+      color: var(--accent-soft);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .card-footer {
+      margin-top: 14px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .registration {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    .form-panel {
+      background: radial-gradient(circle at top, #4b2e20, #2b1811);
+      border-radius: var(--radius-xl);
+      padding: 22px 20px 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .form-panel h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      margin-bottom: 10px;
+    }
+
+    .form-description {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.85rem;
+    }
+
+    .form-group--full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--accent-soft);
+    }
+
+    input, select, textarea {
+      background: #2b1811;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 215, 161, 0.35);
+      padding: 9px 12px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    textarea {
+      border-radius: 16px;
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(251, 234, 209, 0.4);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent-soft);
+      box-shadow: 0 0 0 1px rgba(245, 215, 161, 0.35);
+      background: #331d14;
+    }
+
+    .form-footer {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .form-note {
+      max-width: 220px;
+    }
+
+    .error-message, .success-message {
+      margin-top: 10px;
+      font-size: 0.8rem;
+    }
+
+    .error-message {
+      color: var(--error);
+    }
+
+    .success-message {
+      color: var(--accent-soft);
+    }
+
+    .info-panel {
+      background: linear-gradient(145deg, #41271b, #2a1811);
+      border-radius: var(--radius-xl);
+      padding: 20px 20px 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .info-panel h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent-pink);
+    }
+
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .info-list li {
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(245, 215, 161, 0.2);
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      font-size: 0.75rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(245, 215, 161, 0.08);
+      border: 1px solid rgba(245, 215, 161, 0.25);
+      color: var(--accent-soft);
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(245, 215, 161, 0.2);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      padding: 16px;
+    }
+
+    .overlay--visible {
+      display: flex;
+    }
+
+    .modal {
+      max-width: 420px;
+      width: 100%;
+      background: radial-gradient(circle at top, #4a2b1d, #261711);
+      border-radius: var(--radius-xl);
+      padding: 20px 20px 18px;
+      box-shadow: 0 0 35px rgba(0,0,0,.7);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 14px;
+      top: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .modal h3 {
+      margin: 4px 0 10px;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    .modal .form-group {
+      margin-bottom: 10px;
+    }
+
+    .modal .btn {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .small-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-right {
+        order: -1;
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .registration {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav-links {
+        display: none;
+      }
+      .hero {
+        padding: 26px 18px 22px;
+      }
+      .page-wrapper {
+        padding-inline: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .hero-note {
+        max-width: none;
+      }
+      .card li span:first-child {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="nav">
+      <div class="logo">
+        <img src="glinroom-logo.png" alt="Логотип GlinRoom" class="logo-img" />
+        <span>GlinRoom</span>
+      </div>
+      <div class="nav-links">
+        <a href="#services">Мастер-классы</a>
+        <a href="#booking">Запись</a>
+        <a href="#contacts">Контакты</a>
+        <button class="btn-secondary" id="openRegister">Регистрация</button>
+      </div>
+      <button class="btn" id="openRegisterMobile" style="display:none;">Регистрация</button>
+    </nav>
+  </header>
+
+  <main class="page-wrapper">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-left">
+        <div class="hero-kicker">
+          <span></span> гончарная студия glinroom
+        </div>
+        <h1 class="hero-title">GlinRoom — пространство для&nbsp;творчества из&nbsp;глины</h1>
+        <p class="hero-subtitle">
+          Атмосферные мастер-классы в Казани: классические форматы и тематические японские техники.
+          Создай своё уникальное изделие и забери его после обжига.
+        </p>
+        <div class="hero-actions">
+          <button class="btn" onclick="scrollToBooking()">Записаться на мастер-класс</button>
+          <button class="btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+            Смотреть программы
+          </button>
+        </div>
+        <p class="hero-note">
+          Все материалы, обжиг и упаковка включены. Можно оформить подарочный сертификат.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="photo-card">
+          <!-- Замените src на свои фото мастерской -->
+          <div>
+            <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=80" alt="Работа с глиной">
+            <p class="photo-caption">Теплая атмосфера и индивидуальное сопровождение мастера.</p>
+          </div>
+          <div>
+            <img src="goncharnyy-krug.jpg" alt="Гончарный круг">
+            <p class="photo-caption">Гончарный круг и профессиональные материалы включены в стоимость.</p>
+          </div>
+        </div>
+        <div class="hero-badge">
+          2–2,5 часа творчества · до 2–4 изделий · чай и печенье
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Программы мастер-классов</h2>
+        </div>
+        <p class="section-subtitle">
+          Цены и форматы, как на прайс-листе студии GlinRoom. После занятия изделия проходят обжиг и при желании — глазурование.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <!-- ТЕМАТИЧЕСКИЕ ТЕХНИКИ -->
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Тематические техники</h3>
+            <span class="card-tag">японские форматы</span>
+          </div>
+          <ul>
+            <li>
+              <span>Мастер-класс по японской технике «нерикоми»</span>
+              <span class="price">4 000 ₽</span>
+            </li>
+            <li>
+              <span>Мастер-класс по обжигу «раку»</span>
+              <span class="price">7 500 ₽</span>
+            </li>
+            <li>
+              <span>Мастер-класс по японской технике «куринуки»</span>
+              <span class="price">3 500 ₽</span>
+            </li>
+            <li>
+              <span>Мастер-класс «Персонажи Хаяо Миядзаки»</span>
+              <span class="price">3 300 ₽</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <button class="btn-secondary" onclick="scrollToBooking()">Записаться</button>
+          </div>
+        </article>
+
+        <!-- КЛАССИЧЕСКИЕ ФОРМАТЫ + СВИДАНИЯ -->
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Классические мастер-классы</h3>
+            <span class="card-tag">для начинающих</span>
+          </div>
+          <ul>
+            <li>
+              <span>Мастер-класс по ручной лепке (тарелка/кружка)</span>
+              <span class="price">2 800 ₽</span>
+            </li>
+            <li>
+              <span>Мастер-класс на гончарном круге (тарелка/кружка)</span>
+              <span class="price">3 000 ₽</span>
+            </li>
+            <li>
+              <span>Свидание — 2 часа (на гончарном круге — 2 изделия)</span>
+              <span class="price">7 500 ₽</span>
+            </li>
+            <li>
+              <span>Премиум Свидание — 2,5 часа (гончарный круг + вино)</span>
+              <span class="price">8 900 ₽</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <button class="btn-secondary" onclick="scrollToBooking()">Записаться</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- BOOKING / REGISTRATION -->
+    <section id="booking">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Запись на мастер-класс</h2>
+        </div>
+        <p class="section-subtitle">
+          Оставьте заявку — студия GlinRoom свяжется с вами, чтобы подтвердить время и формат.
+          Сейчас всё работает только на фронте (без реальной отправки на сервер).
+        </p>
+      </div>
+
+      <div class="registration">
+        <!-- ФОРМА ЗАПИСИ -->
+        <div class="form-panel">
+          <h3>Заявка на запись</h3>
+          <p class="form-description">
+            Заполните контактные данные и выберите программу. Данные сохраняются в вашем браузере (LocalStorage) как черновик.
+          </p>
+
+          <form id="bookingForm" novalidate>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Имя *</label>
+                <input type="text" id="name" name="name" placeholder="Как к вам обращаться?" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Телефон *</label>
+                <input type="tel" id="phone" name="phone" placeholder="8 993 731 01 45" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="для подтверждения записи" />
+              </div>
+              <div class="form-group">
+                <label for="date">Желаемая дата</label>
+                <input type="date" id="date" name="date" />
+              </div>
+              <div class="form-group form-group--full">
+                <label for="program">Программа</label>
+                <select id="program" name="program">
+                  <option value="">Выберите программу</option>
+                  <option>Нерикоми</option>
+                  <option>Раку</option>
+                  <option>Куринуки</option>
+                  <option>Персонажи Хаяо Миядзаки</option>
+                  <option>Ручная лепка (тарелка/кружка)</option>
+                  <option>Гончарный круг (тарелка/кружка)</option>
+                  <option>Свидание — 2 часа</option>
+                  <option>Премиум Свидание — 2,5 часа</option>
+                </select>
+              </div>
+              <div class="form-group form-group--full">
+                <label for="comment">Комментарий</label>
+                <textarea id="comment" name="comment" placeholder="Количество человек, предпочтительное время, сертификат и др."></textarea>
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <div class="form-note">
+                Нажимая «Отправить», вы соглашаетесь на обработку персональных данных.
+              </div>
+              <button class="btn" type="submit">Отправить заявку</button>
+            </div>
+            <div class="error-message" id="formError"></div>
+            <div class="success-message" id="formSuccess"></div>
+          </form>
+        </div>
+
+        <!-- ИНФО-БЛОК -->
+        <aside class="info-panel" id="contacts">
+          <h3>Контакты GlinRoom</h3>
+          <ul class="info-list">
+            <li><strong>Адрес:</strong> г. Казань м. Козья Слобода, ул. Козина, д. 2</li>
+            <li><strong>Телефон:</strong> 8&nbsp;993&nbsp;731&nbsp;01&nbsp;45</li>
+            <li><strong>Email:</strong> <a href="mailto:Kamil_garaev05@mail.ru">Kamil_garaev05@mail.ru</a></li>
+            <li><strong>Время работы:</strong> ежедневно 11:00–22:00</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Уютная атмосфера</span>
+            <span class="chip">Индивидуальная поддержка</span>
+            <span class="chip">Профессиональный инструктор</span>
+            <span class="chip">Упаковка готового изделия</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2025 GlinRoom — гончарная студия</span>
+      <span>Прототип без серверной части</span>
+    </footer>
+  </main>
+
+  <!-- REGISTRATION MODAL -->
+  <div class="overlay" id="registerOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-close" id="closeRegister">&times;</div>
+      <h3>Регистрация</h3>
+      <p class="form-description">
+        Заполните форму, чтобы GlinRoom запомнил ваши данные.
+        Информация хранится только в вашем браузере и подставляется в заявку на запись.
+      </p>
+      <form id="registerForm" novalidate>
+        <div class="form-group">
+          <label for="regName">Имя *</label>
+          <input id="regName" required placeholder="Имя" />
+        </div>
+        <div class="form-group">
+          <label for="regPhone">Телефон *</label>
+          <input id="regPhone" required placeholder="8 993 731 01 45" />
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email</label>
+          <input id="regEmail" type="email" placeholder="you@example.com" />
+        </div>
+        <button class="btn" type="submit">Сохранить данные</button>
+        <div class="error-message" id="regError"></div>
+        <div class="success-message" id="regSuccess"></div>
+      </form>
+      <p class="small-text">
+        Сейчас регистрация не отправляется на сервер — она лишь сохраняет ваши данные локально,
+        чтобы подставлять их в форму записи.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function scrollToBooking() {
+      document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function updateNavButtons() {
+      const links = document.querySelector('.nav-links');
+      const mobileBtn = document.getElementById('openRegisterMobile');
+      if (getComputedStyle(links).display === 'none') {
+        mobileBtn.style.display = 'inline-flex';
+      } else {
+        mobileBtn.style.display = 'none';
+      }
+    }
+    window.addEventListener('resize', updateNavButtons);
+    window.addEventListener('load', updateNavButtons);
+
+    const overlay = document.getElementById('registerOverlay');
+    const openBtns = [document.getElementById('openRegister'), document.getElementById('openRegisterMobile')];
+    const closeBtn = document.getElementById('closeRegister');
+
+    openBtns.forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', () => {
+          overlay.classList.add('overlay--visible');
+          overlay.setAttribute('aria-hidden', 'false');
+        });
+      }
+    });
+
+    function closeModal() {
+      overlay.classList.remove('overlay--visible');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
+    const regForm = document.getElementById('registerForm');
+    const regError = document.getElementById('regError');
+    const regSuccess = document.getElementById('regSuccess');
+
+    const savedProfile = JSON.parse(localStorage.getItem('potteryProfile') || 'null');
+    if (savedProfile) {
+      document.getElementById('regName').value = savedProfile.name || '';
+      document.getElementById('regPhone').value = savedProfile.phone || '';
+      document.getElementById('regEmail').value = savedProfile.email || '';
+
+      document.getElementById('name').value = savedProfile.name || '';
+      document.getElementById('phone').value = savedProfile.phone || '';
+      document.getElementById('email').value = savedProfile.email || '';
+    }
+
+    regForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      regError.textContent = '';
+      regSuccess.textContent = '';
+
+      const name = document.getElementById('regName').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+
+      if (!name || !phone) {
+        regError.textContent = 'Пожалуйста, заполните имя и телефон.';
+        return;
+      }
+
+      const profile = { name, phone, email };
+      localStorage.setItem('potteryProfile', JSON.stringify(profile));
+      regSuccess.textContent = 'Данные сохранены в браузере.';
+
+      document.getElementById('name').value = name;
+      document.getElementById('phone').value = phone;
+      document.getElementById('email').value = email;
+    });
+
+    const bookingForm = document.getElementById('bookingForm');
+    const formError = document.getElementById('formError');
+    const formSuccess = document.getElementById('formSuccess');
+
+    bookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      formError.textContent = '';
+      formSuccess.textContent = '';
+
+      const name = bookingForm.name.value.trim();
+      const phone = bookingForm.phone.value.trim();
+
+      if (!name || !phone) {
+        formError.textContent = 'Имя и телефон обязательны для записи.';
+        return;
+      }
+
+      const bookingData = {
+        name,
+        phone,
+        email: bookingForm.email.value.trim(),
+        date: bookingForm.date.value,
+        program: bookingForm.program.value,
+        comment: bookingForm.comment.value.trim(),
+        createdAt: new Date().toISOString()
+      };
+      localStorage.setItem('lastPotteryBooking', JSON.stringify(bookingData));
+
+      formSuccess.textContent = 'Заявка сохранена локально. В реальном проекте здесь будет отправка на сервер.';
+      bookingForm.reset();
+
+      const profile = JSON.parse(localStorage.getItem('potteryProfile') || 'null');
+      if (profile) {
+        bookingForm.name.value = profile.name || '';
+        bookingForm.phone.value = profile.phone || '';
+        bookingForm.email.value = profile.email || '';
+      }
+    });
+  </script>
+</body>
+</html>
+Create index.html
